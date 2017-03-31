@@ -1,0 +1,47 @@
+﻿<Page x:Class="PurchaseManagement.View.OrderprojectPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:props="clr-namespace:PurchaseManagement.Properties"
+      xmlns:local="clr-namespace:PurchaseManagement.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="400" d:DesignWidth="600"
+      Title="OrderprojectPage">
+    <Border Padding="7,0,0,0">
+        <HeaderedContentControl Header="{x:Static props:Resources.OrderProjDetail}" Style="{StaticResource TitleHeaderControlStyle}">
+            <Grid x:Name="rootGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Margin="0,7">
+                    <TextBlock Text="{x:Static props:Resources.OrderID}" FontSize="13" VerticalAlignment="Center"/>
+                    <TextBox x:Name="orderidTb" Margin="12,0" Padding="5" Text="{Binding PurchaseID}" FontSize="13" MinWidth="120" />
+                </StackPanel>
+                <Border Grid.Row="1" BorderBrush="LightGray" BorderThickness="1">
+                    <DataGrid BorderThickness="0" x:Name="dataGrid" CanUserAddRows="False" CanUserDeleteRows="True" AutoGenerateColumns="False" Style="{StaticResource LightDataGridStyle}">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static props:Resources.Delete}" Command="{x:Static DataGrid.DeleteCommand}" BorderThickness="0"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn  Header="{x:Static props:Resources.GoodsID}" IsReadOnly="True" Binding="{Binding GoodsID}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Header="{x:Static props:Resources.Amount}" Binding="{Binding Amount}">
+                            </DataGridTextColumn>
+                            <DataGridTextColumn  Header="{x:Static props:Resources.UnitPrice}" IsReadOnly="True" Binding="{Binding UnitPrice}">
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Border>
+                <StackPanel Orientation="Horizontal" Grid.Row="3">
+                    <Button BorderThickness="0" Padding="22,7" Margin="7,7" Click="addBtnClick" Content="{x:Static props:Resources.New}" />
+                    <Button BorderThickness="0" Padding="22,7" Margin="0,7" Click="saveBtnClick" Content="{x:Static props:Resources.Save}"/>
+                </StackPanel>
+            </Grid>
+        </HeaderedContentControl>
+    </Border>
+</Page>

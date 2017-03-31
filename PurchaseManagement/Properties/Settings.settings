@@ -1,0 +1,21 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PurchaseManagement.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="UsingLang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zh-CN</Value>
+    </Setting>
+    <Setting Name="FontSetting" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Microsoft YaHei</Value>
+    </Setting>
+    <Setting Name="NextLang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">English</Value>
+    </Setting>
+    <Setting Name="NewestLang" Type="System.String" Scope="User">
+      <Value Profile="(Default)">zh-CN</Value>
+    </Setting>
+    <Setting Name="HistoryUser" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

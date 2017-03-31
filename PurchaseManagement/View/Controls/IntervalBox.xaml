@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="PurchaseManagement.View.IntervalBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ext="clr-namespace:PurchaseManagement.Extension"
+             xmlns:props="clr-namespace:PurchaseManagement.Properties"
+             xmlns:local="clr-namespace:PurchaseManagement.View"
+             mc:Ignorable="d" >
+    <HeaderedContentControl x:Name="boxroot" Header="{Binding Header}" Style="{StaticResource NormHorizonHeaderControlStyle}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid MinWidth="90" Margin="0,4,7,4" Height="25">
+                <DatePicker x:Name="fromPicker" VerticalAlignment="Center" ext:DatePickerExtension.Placeholder="From" ext:DatePickerExtension.UseCustomPlaceholder="True"></DatePicker>
+                <ComboBox x:Name="fromComboBox" ItemsSource="{Binding ItemsSource}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
+                <local:PlaceholderTextBox x:Name="fromTextBox" Placeholder="From value" VerticalAlignment="Center" Padding="0,3"/>
+            </Grid>
+            <Line x:Name="intervalLine" X1="1" X2="10" Width="10" StrokeThickness="1" Stroke="Black" Grid.Column="1" VerticalAlignment="Center"/>
+            <Grid x:Name="toPart" Margin="7,4,0,4" Grid.Column="2" MinWidth="90" Height="25">
+                <DatePicker x:Name="toPicker" VerticalAlignment="Center" ext:DatePickerExtension.Placeholder="To" ext:DatePickerExtension.UseCustomPlaceholder="True"></DatePicker>
+                <ComboBox x:Name="toComboBox" ItemsSource="{Binding ItemsSource}" DisplayMemberPath="Display" SelectedValuePath="Value"/>
+                <local:PlaceholderTextBox x:Name="toTextBox" Placeholder="To value" VerticalAlignment="Center" Padding="0,3" />
+            </Grid>
+        </Grid>
+    </HeaderedContentControl>
+</UserControl>

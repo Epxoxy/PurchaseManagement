@@ -1,0 +1,166 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:sys="clr-namespace:System;assembly=mscorlib"
+      xmlns:array="clr-namespace:System.Collections;assembly=mscorlib"
+      xmlns:props="clr-namespace:PurchaseManagement.Properties"
+      xmlns:local="clr-namespace:PurchaseManagement.View"
+      xmlns:ext="clr-namespace:PurchaseManagement.Extension"
+                    xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" x:Class="PurchaseManagement.View.HomePage"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="800"
+      Title="HomePage">
+    <Page.Resources>
+        <local:NavigateCase x:Key="navigateCase" />
+        <DataTemplate x:Key="ItemsControlDataTemplate">
+            <Expander IsExpanded="True" Header="{Binding Header}">
+                <ItemsControl ItemsSource="{Binding SubMenus}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Command="{x:Static local:NavigateCase.NavCmdItemCommand}" GroupName="expandGroup" Content="{Binding ItemName}" CommandParameter="{Binding}" Style="{StaticResource PipeRadionButtonStyle}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Expander>
+        </DataTemplate>
+
+        <Style x:Key="HeaderGroupItemStyle" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                        <Border>
+                            <Expander Header="{Binding Name}" IsExpanded="True">
+                                <ItemsPresenter Grid.Row="1"/>
+                            </Expander>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <local:ListBoxGroupConverter x:Key="ListBoxGroupConverter" />
+        <CollectionViewSource x:Key="ListBoxGroup" >
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription Converter="{StaticResource ListBoxGroupConverter}" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+        <DataTemplate x:Key="ListBoxItemTemplate" DataType="{x:Type local:NavMenuItem}">
+            <TextBlock Text="{Binding ItemName}" FontSize="14"/>
+         </DataTemplate>
+    </Page.Resources>
+    <Grid Background="White">
+        <StackPanel x:Name="toolsBar" Panel.ZIndex="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Height="28">
+            <Button Content="{x:Static props:Resources.Print}" Command="{x:Static local:NavigateCase.PrintCommand}" VerticalAlignment="Center" Style="{StaticResource TextOnlyButton}" FontSize="17" Margin="12,0"/>
+            <Button x:Name="logoutBtn" Content="{x:Static props:Resources.Logout}" VerticalAlignment="Center" Style="{StaticResource TextOnlyButton}" FontSize="17" Margin="12,0"/>
+            <ToggleButton x:Name="accountBtn" Content="{x:Static props:Resources.Account}" VerticalAlignment="Center" Style="{StaticResource TextOnlyToggleButton}" FontSize="17" Margin="12,0"/>
+        </StackPanel>
+        <Grid Panel.ZIndex="3" Visibility="{Binding IsChecked, ElementName=accountBtn, Converter={x:Static local:Converters.Bool2Visibility}}"
+              VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,30,0,0">
+            <Border BorderBrush="LightGray" Background="White" BorderThickness="1,0,0,1" Margin="2,0,0,2">
+                <Border.Effect>
+                    <DropShadowEffect RenderingBias="Performance" ShadowDepth="0" BlurRadius="6" Direction="0" Color="LightGray" Opacity="0.6"/>
+                </Border.Effect>
+            </Border>
+            <ItemsControl Margin="2,0,0,2" Background="White">
+                <ToggleButton Padding="6,0,6,0" Style="{StaticResource TextOnlyToggleButton}" HorizontalAlignment="Right" IsChecked="{Binding IsChecked, ElementName=accountBtn, Mode=TwoWay}" FontSize="13" Content="{x:Static props:Resources.HidePanel}">
+                </ToggleButton>
+                <TextBlock Foreground="DimGray" FontSize="16" Padding="14,4,14,7">
+                    <Run Text="{x:Static props:Resources.LoginID}" />
+                    <Run Text=" : " />
+                    <Run Text="{Binding UserID, Source={x:Static ext:MySqlConnector.Connector}, Mode=OneWay}"/>
+                    <Run Text="&#13;&#13;"/><Run Text="{x:Static props:Resources.UserName}" />
+                    <Run Text=" : " />
+                    <Run Text="{Binding UserName, Source={x:Static ext:MySqlConnector.Connector}, Mode=OneWay}"/>
+                    <Run Text="&#13;&#13;"/><Run Text="{x:Static props:Resources.RoleName}"/>
+                    <Run Text=" : "/>
+                    <Run Text="{Binding RoleName, Source={x:Static ext:MySqlConnector.Connector}, Mode=OneWay}"/>
+                </TextBlock>
+                <Expander Padding="7" BorderBrush="Transparent" Header="{x:Static props:Resources.ChangePsw}">
+                    <ItemsControl Padding="7" Width="360">
+                        <HeaderedContentControl Header="{x:Static props:Resources.OldPsw}" Margin="7" Style="{StaticResource BigHorizonHeaderControlStyle}" FontSize="14">
+                            <PasswordBox x:Name="oldPswBox" Padding="4" Margin="4,0"/>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Header="{x:Static props:Resources.NewPsw}" Margin="7" Style="{StaticResource BigHorizonHeaderControlStyle}" FontSize="14">
+                            <PasswordBox x:Name="newPswBox" Padding="4" Margin="4,0"/>
+                        </HeaderedContentControl>
+                        <HeaderedContentControl Header="{x:Static props:Resources.Confirm}" Margin="7" Style="{StaticResource BigHorizonHeaderControlStyle}" FontSize="14">
+                            <PasswordBox x:Name="confirmPswBox" Padding="4" Margin="4,0"/>
+                        </HeaderedContentControl>
+                        <Canvas Height="36" Margin="0,10,0,0">
+                            <Button x:Name="okChangePswBtn" Content="{x:Static props:Resources.OK}" Height="36" Width="120" BorderThickness="0" />
+                        </Canvas>
+                    </ItemsControl>
+                </Expander>
+            </ItemsControl>
+        </Grid>
+        <TabControl x:Name="tabControl" BorderThickness="0" Padding="0"
+                    Style="{DynamicResource LightTabControlStyle}" ItemContainerStyle="{StaticResource LightTabItemStyle}">
+            <TabItem x:Name="purchaseTabItem" Header="{x:Static props:Resources.Purchase}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="purchaseListBox" Style="{StaticResource PipeListBoxStyle}" ItemTemplate="{StaticResource ListBoxItemTemplate}">
+                        <ListBox.GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource HeaderGroupItemStyle}" />
+                        </ListBox.GroupStyle>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{x:Static local:NavigateCase.NavCmdItemCommand}" CommandParameter="{Binding SelectedItem, ElementName=purchaseListBox}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                    <Frame x:Name="purchasFrame" Grid.Column="1" NavigationUIVisibility="Hidden" JournalOwnership="UsesParentJournal" JournalEntry.KeepAlive="False" 
+                           local:NavigateCase.RegisterCase="True"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="infoTabItem" Header="{x:Static props:Resources.InfoManage}" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ListBox x:Name="infoListBox" Style="{StaticResource PipeListBoxStyle}" ItemTemplate="{StaticResource ListBoxItemTemplate}">
+                        <ListBox.GroupStyle>
+                            <GroupStyle ContainerStyle="{StaticResource HeaderGroupItemStyle}" />
+                        </ListBox.GroupStyle>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{x:Static local:NavigateCase.NavCmdItemCommand}" CommandParameter="{Binding SelectedItem, ElementName=infoListBox}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListBox>
+                    <Frame x:Name="infoFrame" Grid.Column="1" NavigationUIVisibility="Hidden" JournalEntry.KeepAlive="False"
+                           local:NavigateCase.RegisterCase="True"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="othersTabItem" Header="{x:Static props:Resources.Others}" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl Background="{StaticResource f4Brush}">
+                        <RadioButton Content="{x:Static props:Resources.Search}" Command="{x:Static local:NavigateCase.NavCmdItemCommand}" Style="{StaticResource PipeRadionButtonStyle}">
+                            <RadioButton.CommandParameter>
+                                <local:NavMenuItem CaseString="search" />
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                        <RadioButton Content="{x:Static props:Resources.Statistics}" Command="{x:Static local:NavigateCase.NavCmdItemCommand}" Style="{StaticResource PipeRadionButtonStyle}">
+                            <RadioButton.CommandParameter>
+                                <local:NavMenuItem CaseString="statistics" />
+                            </RadioButton.CommandParameter>
+                        </RadioButton>
+                    </ItemsControl>
+                    <Frame x:Name="othersFrame" Grid.Column="1" NavigationUIVisibility="Hidden" JournalEntry.KeepAlive="False"
+                           local:NavigateCase.RegisterCase="True"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
